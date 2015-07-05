@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
+
+<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_alignParentTop="true"
-        android:background="@drawable/header">
+        android:background="@drawable/header"
+        android:id="@+id/current_home_header">
 
         <TextView
             android:layout_width="wrap_content"
@@ -30,41 +31,47 @@
 
     </RelativeLayout>
 
-    <GridView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/current_student_home_grid"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:columnWidth="80dp"
-        android:numColumns="auto_fit"
-        android:verticalSpacing="25dp"
-        android:horizontalSpacing="10dp"
-        android:stretchMode="columnWidth"
-        android:gravity="center"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="50dp"
-        />
+    <LinearLayout
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:layout_marginTop="80dp">
+
+        <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/current_student_home_grid"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:columnWidth="80dp"
+            android:numColumns="auto_fit"
+            android:verticalSpacing="25dp"
+            android:horizontalSpacing="10dp"
+            android:stretchMode="columnWidth"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="50dp"
+            />
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_marginTop="25dp"
+        android:layout_alignParentBottom="true"
         android:background="#add8e6">
 
-    <TextView
-        android:layout_width="60dp"
-        android:layout_height="wrap_content"
-        android:gravity="right"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="80dp"
-        android:text="Term : "
-        android:textStyle="bold"/>
-    <Spinner
-        android:id="@+id/current_home_term_spinner"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_gravity="center_vertical"
-        android:entries="@array/term_arrays" />
+        <TextView
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="80dp"
+            android:text="Term : "
+            android:textStyle="bold"/>
+        <Spinner
+            android:id="@+id/current_home_term_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            android:entries="@array/term_arrays" />
 
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>
