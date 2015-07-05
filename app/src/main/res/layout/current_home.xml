@@ -6,7 +6,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="70dp"
         android:layout_alignParentTop="true"
         android:background="@drawable/header">
 
@@ -17,8 +17,17 @@
             android:layout_margin="5dp"
             android:text="Student Center"
             android:textColor="#000"
-            android:textSize="25sp"
+            android:textSize="30sp"
             android:textStyle="bold"/>
+
+        <ImageButton
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginRight="5dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/signout"/>
+
     </RelativeLayout>
 
     <GridView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -34,5 +43,28 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="50dp"
         />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="25dp"
+        android:background="#add8e6">
+
+    <TextView
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="80dp"
+        android:text="Term : "
+        android:textStyle="bold"/>
+    <Spinner
+        android:id="@+id/current_home_term_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_gravity="center_vertical"
+        android:entries="@array/term_arrays" />
+
+    </LinearLayout>
 
 </LinearLayout>

@@ -3,4 +3,9 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
+    <string-array name="term_arrays">
+        <item>Summer 2015</item>
+        <item>Fall 2015</item>
+    </string-array>
 </resources>
