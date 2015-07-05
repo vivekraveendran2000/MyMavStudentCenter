@@ -19,6 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name="uta.com.academics.AcademicsHome"/>
+        <activity android:name="uta.com.studentcenter.CurrentStudentHome"/>
+        <activity android:name="uta.com.studentcenter.ProspectiveStudentHome"/>
     </application>
 
 </manifest>
