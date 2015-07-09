@@ -8,4 +8,20 @@
         <item>Summer 2015</item>
         <item>Fall 2015</item>
     </string-array>
+
+    <string-array name="department_arrays">
+        <item>Computer Sc</item>
+        <item>Electrical</item>
+        <item>Mechanichal</item>
+        <item>Civil</item>
+        <item>Industrial</item>
+        <item>Engg Management</item>
+    </string-array>
+
+    <string-array name="course_number_arrays">
+        <item>Greater than</item>
+        <item>Exactly</item>
+        <item>Less than</item>
+    </string-array>
+
 </resources>

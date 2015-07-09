@@ -21,6 +21,11 @@
         <activity android:name="uta.com.academics.AcademicsHome"/>
         <activity android:name="uta.com.studentcenter.CurrentStudentHome"/>
         <activity android:name="uta.com.studentcenter.ProspectiveStudentHome"/>
+        <activity android:name="uta.com.search.SearchInput"/>
+        <activity android:name="uta.com.search.SearchResult"/>
+        <activity android:name="uta.com.search.SearchSubjectDetails"/>
+
+
     </application>
 
 </manifest>
