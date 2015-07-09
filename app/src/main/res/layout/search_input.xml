@@ -10,6 +10,16 @@
         android:background="@drawable/header"
         android:id="@+id/current_home_header">
 
+        <ImageButton
+            android:id="@+id/btn_search_input_back"
+            android:layout_width="75dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/back_button"/>
+
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -85,7 +95,7 @@
             android:layout_height="30dp"
             android:layout_marginLeft="30dp"
             android:text="Course number"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="20dp"
             android:textSize="20sp"
             android:textStyle="bold"
             />
@@ -113,6 +123,14 @@
                 android:layout_marginRight="5dp"/>
 
         </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/btn_search_input"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:background="@drawable/search_button"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"/>
 
      </LinearLayout>
 
