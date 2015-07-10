@@ -2,14 +2,19 @@ package uta.com.studentcenter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import uta.com.search.SearchInput;
 
 /**
  * Created by vivekraveendran on 7/5/2015.
@@ -47,6 +52,16 @@ public class CurrentStudentHome extends Activity {
         setContentView(R.layout.current_home);
         grid = (GridView) findViewById(R.id.current_student_home_grid);
         grid.setAdapter(new CustomGrid(this,gridItems, imageId));
+        grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if(position == 0){
+
+                    Intent searchInputIntent = new Intent(CurrentStudentHome.this, SearchInput.class);
+                    startActivity(searchInputIntent);
+                }
+            }
+        });
     }
 
 

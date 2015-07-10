@@ -23,6 +23,6 @@ public class Splash extends Activity {
                 startActivity(loginIntent);
                 Splash.this.finish();
             }
-        }, 3000);
+        }, 2500);
     }
 }
