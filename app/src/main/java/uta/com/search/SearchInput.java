@@ -1,6 +1,7 @@
 package uta.com.search;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -36,6 +37,9 @@ public class SearchInput extends Activity implements View.OnClickListener{
     public void onClick(View v) {
 
         if(v.equals(searchBtn)){
+
+            Intent searchResultIntent = new Intent(SearchInput.this, SearchResult.class);
+            startActivity(searchResultIntent);
 
         }else if (v.equals(backBtn)) {
             finish();
