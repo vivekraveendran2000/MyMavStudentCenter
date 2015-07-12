@@ -1,6 +1,8 @@
 package uta.com.studentcenter;
 
 
+import android.util.Log;
+
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -15,7 +17,7 @@ import java.net.HttpURLConnection;
  */
 public class Webservice {
 
-    public static int login(String userName, String password){
+    public static JSONObject login(String userName, String password){
 
         try {
 
@@ -50,27 +52,28 @@ public class Webservice {
             rd.close();
             String output = response.toString();
             JSONObject jsonObject = new JSONObject(output);
-            System.out.println(output);
+            return  jsonObject;
 
         }catch(Exception e){
 
             e.printStackTrace();
+            return null;
         }
-        return 1;
     }
 
 
 
-    public static int Search(String department, String term, String courseNumber, String restriction){
+    public static JSONObject Search(String department, String term, String courseNumber, String restriction){
 
         try {
 
             URL url = new URL("http://omega.uta.edu/~sxa6933/StudentCenter/search.php");
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            String urlParameters = "dept_name=" + "CSE" + "&course_num=" + "5000" + "&restriction=" + ">" +"&term=" + "Fall 2015" ;
+            String urlParameters = "dept_name=" + "CSE" + "&course_num=" + "5000" + "&restriction=" + ">" +"&term=" + "Summer 2015" ;
             urlConnection.setRequestMethod("POST");
             urlConnection.setRequestProperty("Content-Length", "" +
                     Integer.toString(urlParameters.getBytes().length));
+
             urlConnection.setRequestProperty("Content-Language", "en-US");
 
             urlConnection.setUseCaches (false);
@@ -95,13 +98,14 @@ public class Webservice {
             }
             rd.close();
             String output = response.toString();
+            Log.e("Search output", output);
             JSONObject jsonObject = new JSONObject(output);
-            System.out.println(output);
+            return jsonObject;
 
         }catch(Exception e){
 
             e.printStackTrace();
+            return null;
         }
-        return 1;
     }
 }

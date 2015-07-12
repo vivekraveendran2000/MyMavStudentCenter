@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,9 +20,11 @@ import uta.com.search.SearchInput;
 /**
  * Created by vivekraveendran on 7/5/2015.
  */
-public class CurrentStudentHome extends Activity {
+public class CurrentStudentHome extends Activity implements View.OnClickListener{
 
     GridView grid;
+    ImageButton signout;
+
     String[] gridItems = {
             "Search",
             "Add to cart",
@@ -50,20 +53,35 @@ public class CurrentStudentHome extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.current_home);
+        initView();
+    }
+
+    void initView(){
+
         grid = (GridView) findViewById(R.id.current_student_home_grid);
         grid.setAdapter(new CustomGrid(this,gridItems, imageId));
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position == 0){
+                if (position == 0) {
 
                     Intent searchInputIntent = new Intent(CurrentStudentHome.this, SearchInput.class);
                     startActivity(searchInputIntent);
                 }
             }
         });
+        signout = (ImageButton) findViewById(R.id.btn_signout);
+        signout.setOnClickListener(this);
     }
 
+    @Override
+    public void onClick(View v) {
+
+        if(v.equals(signout)){
+
+            finish();
+        }
+    }
 
     public class CustomGrid extends BaseAdapter {
         private Context mContext;
