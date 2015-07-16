@@ -45,7 +45,7 @@ public class login extends Activity implements View.OnClickListener{
 
             if (userNameTxt.getText().toString().equals("") || passwordTxt.getText().toString().equals("") ){
 
-                Toast.makeText(getApplicationContext(), "Login credentials are empty", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Login credentials are empty", Toast.LENGTH_SHORT).show();
 
             }else{
 

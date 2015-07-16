@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -13,6 +14,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import org.json.JSONObject;
 
 import uta.com.studentcenter.R;
 import uta.com.studentcenter.Webservice;
@@ -184,21 +187,37 @@ public class SearchInput extends Activity implements View.OnClickListener{
 
         protected void onPostExecute(String result) {
 
-            if(searchResult == "Empty") {
+            try {
+                if (searchResult.equals("[]")) {
 
-                Toast.makeText(getApplicationContext(), "No classes found",Toast.LENGTH_SHORT).show();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
 
-            }else{
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    searchProgressDialog.dismiss();
+                                }
+                            });
+                            Toast.makeText(getApplicationContext(), "No classes found", Toast.LENGTH_SHORT).show();
+                        }
+                    }, 1000);
 
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        searchProgressDialog.dismiss();
-                    }
-                });
-                Intent searchResultIntent = new Intent(SearchInput.this, SearchResult.class);
-                searchResultIntent.putExtra("result", searchResult);
-                startActivity(searchResultIntent);
+                } else {
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            searchProgressDialog.dismiss();
+                        }
+                    });
+                    Intent searchResultIntent = new Intent(SearchInput.this, SearchResult.class);
+                    searchResultIntent.putExtra("result", searchResult);
+                    startActivity(searchResultIntent);
+                }
+            }catch (Exception e){
+
             }
         }
     }
