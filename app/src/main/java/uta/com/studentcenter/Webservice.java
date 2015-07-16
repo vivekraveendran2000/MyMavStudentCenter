@@ -63,13 +63,13 @@ public class Webservice {
 
 
 
-    public static JSONObject Search(String department, String term, String courseNumber, String restriction){
+    public static String Search(String department, String term, String courseNumber, String restriction){
 
         try {
 
             URL url = new URL("http://omega.uta.edu/~sxa6933/StudentCenter/search.php");
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            String urlParameters = "dept_name=" + "CSE" + "&course_num=" + "5000" + "&restriction=" + ">" +"&term=" + "Summer 2015" ;
+            String urlParameters = "dept_name=" + department + "&course_num=" + courseNumber + "&restriction=" + restriction +"&term=" + term ;
             urlConnection.setRequestMethod("POST");
             urlConnection.setRequestProperty("Content-Length", "" +
                     Integer.toString(urlParameters.getBytes().length));
@@ -98,9 +98,7 @@ public class Webservice {
             }
             rd.close();
             String output = response.toString();
-            Log.e("Search output", output);
-            JSONObject jsonObject = new JSONObject(output);
-            return jsonObject;
+            return  output;
 
         }catch(Exception e){
 
