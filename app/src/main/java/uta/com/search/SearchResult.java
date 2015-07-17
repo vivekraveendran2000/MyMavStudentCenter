@@ -1,16 +1,20 @@
 package uta.com.search;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -117,7 +121,7 @@ public class SearchResult extends Activity implements View.OnClickListener{
         }
     }
 
-    public class ListAdapter extends BaseAdapter {
+    public class ListAdapter extends BaseAdapter implements  View.OnClickListener{
 
         private  ArrayList<Course> courses;
 
@@ -153,6 +157,8 @@ public class SearchResult extends Activity implements View.OnClickListener{
                 TextView courseNumber = (TextView) rowView.findViewById(R.id.txt_search_list_course_number);
                 TextView courseName = (TextView) rowView.findViewById(R.id.txt_search_list_course_name);
                 TextView instructor = (TextView) rowView.findViewById(R.id.txt_search_list_instructor);
+                ImageButton arrowBtn = (ImageButton) rowView.findViewById(R.id.btn_list_item_select);
+                arrowBtn.setOnClickListener(new ClickHandler(position));
 
                 Course tempCs = getItem(position);
                 courseNumber.setText(tempCs.getCourse_num());
@@ -165,6 +171,38 @@ public class SearchResult extends Activity implements View.OnClickListener{
             }
 
             return rowView;
+        }
+
+        @Override
+        public void onClick(View v) {
+
+        }
+    }
+
+    public class ClickHandler implements View.OnClickListener{
+
+        int position;
+
+        ClickHandler(int position){
+
+            this.position = position;
+        }
+
+        @Override
+        public void onClick(View v) {
+
+            Course course = search_courses.get(position);
+            Intent subjectDetailIntent = new Intent(context, SearchSubjectDetails.class);
+            subjectDetailIntent.putExtra("name",course.getCourse_name());
+            subjectDetailIntent.putExtra("number",course.getCourse_num());
+            subjectDetailIntent.putExtra("strength",course.getCourse_strength());
+            subjectDetailIntent.putExtra("time",course.getCourse_time());
+            subjectDetailIntent.putExtra("end_date",course.getEnd_date());
+            subjectDetailIntent.putExtra("instructor",course.getInstructor_name());
+            subjectDetailIntent.putExtra("room",course.getRoom_no());
+            subjectDetailIntent.putExtra("start_date",course.getStart_date());
+
+            context.startActivity(subjectDetailIntent);
         }
     }
 }
