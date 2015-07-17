@@ -151,8 +151,6 @@ public class SearchResult extends Activity implements View.OnClickListener{
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-            if (convertView == null) {
-
                 rowView = inflater.inflate(R.layout.search_list_item, null);
                 TextView courseNumber = (TextView) rowView.findViewById(R.id.txt_search_list_course_number);
                 TextView courseName = (TextView) rowView.findViewById(R.id.txt_search_list_course_name);
@@ -165,10 +163,6 @@ public class SearchResult extends Activity implements View.OnClickListener{
                 courseName.setText(tempCs.getCourse_name());
                 instructor.setText(tempCs.getInstructor_name());
 
-            }else{
-
-                rowView = (View) convertView;
-            }
 
             return rowView;
         }
