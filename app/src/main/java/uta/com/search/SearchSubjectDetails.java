@@ -2,6 +2,9 @@ package uta.com.search;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import uta.com.studentcenter.R;
@@ -9,10 +12,11 @@ import uta.com.studentcenter.R;
 /**
  * Created by vivekraveendran on 7/7/2015.
  */
-public class SearchSubjectDetails extends Activity {
+public class SearchSubjectDetails extends Activity implements View.OnClickListener {
 
     String courseNumber, courseName, instructor, startDate, endDate, room, strength, time;
     TextView courseNumberTxt, courseNameTxt, instructorTxt, startDateTxt, endDateTxt, roomTxt, strengthTxt, timeTxt;
+    ImageButton backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,12 +26,12 @@ public class SearchSubjectDetails extends Activity {
             initData();
             initView();
             loadData();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    void initData(){
+    void initData() {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -43,7 +47,7 @@ public class SearchSubjectDetails extends Activity {
         }
     }
 
-    void initView(){
+    void initView() {
 
         courseNumberTxt = (TextView) findViewById(R.id.txt_detail_number);
         courseNameTxt = (TextView) findViewById(R.id.txt_detail_name);
@@ -53,9 +57,12 @@ public class SearchSubjectDetails extends Activity {
         roomTxt = (TextView) findViewById(R.id.txt_detail_room);
         strengthTxt = (TextView) findViewById(R.id.txt_detail_strength);
         timeTxt = (TextView) findViewById(R.id.txt_detail_time);
+
+        backButton = (ImageButton) findViewById(R.id.btn_search_subject_detail);
+        backButton.setOnClickListener(this);
     }
 
-    void loadData(){
+    void loadData() {
 
         courseNumberTxt.setText(courseNumber);
         courseNameTxt.setText(courseName);
@@ -65,5 +72,13 @@ public class SearchSubjectDetails extends Activity {
         roomTxt.setText(room);
         strengthTxt.setText(strength);
         timeTxt.setText(time);
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        if (v.equals(backButton)){
+            finish();
+        }
     }
 }
