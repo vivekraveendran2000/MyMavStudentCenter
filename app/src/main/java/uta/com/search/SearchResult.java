@@ -3,6 +3,7 @@ package uta.com.search;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +12,14 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 import uta.com.Model.Course;
 import uta.com.studentcenter.R;
+import uta.com.studentcenter.Webservice;
 
 /**
  * Created by vivekraveendran on 7/7/2015.
@@ -26,6 +31,7 @@ public class SearchResult extends Activity implements View.OnClickListener{
     ListView listView;
     ArrayList<Course> search_courses;
     Course tempCourse;
+    JSONObject searchJson;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +39,7 @@ public class SearchResult extends Activity implements View.OnClickListener{
         setContentView(R.layout.search_result);
 
         try {
+
             initData();
             initViews();
             context = this;
@@ -45,19 +52,52 @@ public class SearchResult extends Activity implements View.OnClickListener{
 
     void initData(){
 
-        search_courses = new ArrayList<Course>(10);
-        for (int i = 0; i < 10; i++) {
+        try {
+            String result = "";
+            Bundle extras = getIntent().getExtras();
+            if (extras != null) {
+                result = extras.getString("result");
+            }
+            Log.e("result", result);
 
-            tempCourse = new Course();
-            tempCourse.setCourse_name("Database systems 2");
-            tempCourse.setCourse_num("CSE 5325");
-            tempCourse.setCourse_strength("50");
-            tempCourse.setCourse_time("Mon Wed 5:30 - 6:30");
-            tempCourse.setEnd_date("7/15/2015");
-            tempCourse.setInstructor_name("John Howard Robb");
-            tempCourse.setRoom_no("WH 208");
-            tempCourse.setStart_date("5/8/2015");
-            search_courses.add(tempCourse);
+            JSONArray mJsonArray = new JSONArray(result);
+            search_courses = new ArrayList<Course>(mJsonArray.length());
+            JSONObject mJsonObject = new JSONObject();
+            for (int i = 0; i < mJsonArray.length(); i++) {
+
+                mJsonObject = mJsonArray.getJSONObject(i);
+                tempCourse = new Course();
+                String tmp = mJsonObject.getString("course_name");
+                if(mJsonObject.getString("course_name") != null) {
+                    tempCourse.setCourse_name(mJsonObject.getString("course_name"));
+                }
+                if(mJsonObject.getString("course_strength") != null) {
+                    tempCourse.setCourse_strength(mJsonObject.getString("course_strength"));
+                }
+                if(mJsonObject.getString("course_time") != null) {
+                    tempCourse.setCourse_time(mJsonObject.getString("course_time"));
+                }
+                if(mJsonObject.getString("room_no") != null) {
+                    tempCourse.setRoom_no(mJsonObject.getString("room_no"));
+                }
+                if(mJsonObject.getString("start_date") != null) {
+                    tempCourse.setStart_date(mJsonObject.getString("start_date"));
+                }
+                if(mJsonObject.getString("end_date") != null) {
+                    tempCourse.setEnd_date(mJsonObject.getString("end_date"));
+                }
+                if(mJsonObject.getString("course_num") != null) {
+                    tempCourse.setCourse_num(mJsonObject.getString("course_num"));
+                }
+                if(mJsonObject.getString("instructor_name") != null) {
+                    tempCourse.setInstructor_name(mJsonObject.getString("instructor_name"));
+                }
+
+                search_courses.add(tempCourse);
+
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 

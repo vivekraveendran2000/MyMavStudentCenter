@@ -188,7 +188,7 @@ public class SearchInput extends Activity implements View.OnClickListener{
         protected void onPostExecute(String result) {
 
             try {
-                if (searchResult.equals("[]")) {
+                if (searchResult.equals("failed") ) {
 
                     new Handler().postDelayed(new Runnable() {
                         @Override
@@ -206,15 +206,23 @@ public class SearchInput extends Activity implements View.OnClickListener{
 
                 } else {
 
-                    runOnUiThread(new Runnable() {
+                    new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            searchProgressDialog.dismiss();
+
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    searchProgressDialog.dismiss();
+                                }
+                            });
+
+                            Intent searchResultIntent = new Intent(SearchInput.this, SearchResult.class);
+                            searchResultIntent.putExtra("result", searchResult);
+                            startActivity(searchResultIntent);
                         }
-                    });
-                    Intent searchResultIntent = new Intent(SearchInput.this, SearchResult.class);
-                    searchResultIntent.putExtra("result", searchResult);
-                    startActivity(searchResultIntent);
+                    }, 1000);
+
                 }
             }catch (Exception e){
 
