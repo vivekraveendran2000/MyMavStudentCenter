@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import org.json.JSONObject;
 
+import uta.com.Application.ApplicationResult;
+
 
 /**
  * Created by vivekraveendran on 7/17/2015.
@@ -137,8 +139,9 @@ public class ProspectiveHome extends Activity implements View.OnClickListener{
                                 }
                             });
 
-                            Toast.makeText(getApplicationContext(), "Applications retrieved",
-                                    Toast.LENGTH_SHORT).show();
+                            Intent applicationResultIntent = new Intent(ProspectiveHome.this, ApplicationResult.class);
+                            applicationResultIntent.putExtra("result", applicationData);
+                            startActivity(applicationResultIntent);
 
                         }
                     }, 1000);
