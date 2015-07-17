@@ -3,6 +3,7 @@ package uta.com.studentcenter;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.content.Intent;
@@ -89,8 +90,6 @@ public class login extends Activity implements View.OnClickListener{
                     loginStatus = "failure";
                 }
 
-                //Webservice.Search("","","","");
-
 
             } catch (Exception e) {
                 this.exception = e;
@@ -100,41 +99,56 @@ public class login extends Activity implements View.OnClickListener{
 
         protected void onPostExecute(String result) {
 
-            if(loginStatus == "Success") {
+            try {
+                if (loginStatus == "Success") {
 
-                Toast.makeText(getApplicationContext(), "Login successful",
-                        Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Login successful",
+                            Toast.LENGTH_SHORT).show();
 
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
+                    SharedPreferences prefs = context.getSharedPreferences(
+                            "studentcenter", Context.MODE_PRIVATE);
+                    prefs.edit().putString("net_id", userNameTxt.getText().toString()).apply();
+                    prefs.edit().putString("student_status", studentStatus).apply();
 
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                loginProgressDialog.dismiss();
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    loginProgressDialog.dismiss();
+                                }
+                            });
+                            if (studentStatus == "current") {
+
+                                Intent currentStudentHomeIntent = new Intent(login.this, CurrentStudentHome.class);
+                                context.startActivity(currentStudentHomeIntent);
+                                finish();
+                            } else {
+
+                                Intent prospectiveHomeIntent = new Intent(login.this, ProspectiveHome.class);
+                                context.startActivity(prospectiveHomeIntent);
+                                finish();
                             }
-                        });
-                        if(studentStatus == "current") {
-                            Intent currentStudentHomeIntent = new Intent(login.this, CurrentStudentHome.class);
-                            context.startActivity(currentStudentHomeIntent);
-                            finish();
                         }
-                    }
-                }, 1000);
+                    }, 1000);
 
-            }else{
+                } else {
 
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        loginProgressDialog.dismiss();
-                    }
-                });
-                Toast.makeText(getApplicationContext(), "Invalid user name and password",
-                        Toast.LENGTH_LONG).show();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            loginProgressDialog.dismiss();
+                        }
+                    });
+                    Toast.makeText(getApplicationContext(), "Invalid user name and password",
+                            Toast.LENGTH_LONG).show();
+                }
+            }catch (Exception e){
+
             }
-
         }
     }
 }

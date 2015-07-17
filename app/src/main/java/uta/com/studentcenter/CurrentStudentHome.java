@@ -1,9 +1,12 @@
 package uta.com.studentcenter;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +27,8 @@ public class CurrentStudentHome extends Activity implements View.OnClickListener
 
     GridView grid;
     ImageButton signout;
+    ProgressDialog progressDialog;
+    Context context;
 
     String[] gridItems = {
             "Search",
@@ -53,6 +58,7 @@ public class CurrentStudentHome extends Activity implements View.OnClickListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.current_home);
+        context = this;
         initView();
     }
 
@@ -79,7 +85,28 @@ public class CurrentStudentHome extends Activity implements View.OnClickListener
 
         if(v.equals(signout)){
 
-            finish();
+            progressDialog = ProgressDialog.show(context, "Logout", "Signing Out ..", true);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            SharedPreferences prefs = context.getSharedPreferences("studentcenter", Context.MODE_PRIVATE);
+                            prefs.edit().putString("net_id", "").apply();
+                            prefs.edit().putString("student_status", "").apply();
+
+                            progressDialog.dismiss();
+                            Intent loginIntent = new Intent(CurrentStudentHome.this, login.class);
+                            startActivity(loginIntent);
+                            finish();
+
+                        }
+                    });
+                }
+            }, 1000);
         }
     }
 
