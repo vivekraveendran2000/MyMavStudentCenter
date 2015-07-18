@@ -75,6 +75,11 @@ public class SearchResult extends Activity implements View.OnClickListener{
                 if(mJsonObject.getString("course_name") != null) {
                     tempCourse.setCourse_name(mJsonObject.getString("course_name"));
                 }
+
+                if(mJsonObject.getString("unique_code") != null) {
+                    tempCourse.setUniqueNumber(mJsonObject.getString("unique_code"));
+                }
+
                 if(mJsonObject.getString("course_strength") != null) {
                     tempCourse.setCourse_strength(mJsonObject.getString("course_strength"));
                 }
@@ -188,6 +193,7 @@ public class SearchResult extends Activity implements View.OnClickListener{
             Course course = search_courses.get(position);
             Intent subjectDetailIntent = new Intent(context, SearchSubjectDetails.class);
             subjectDetailIntent.putExtra("name",course.getCourse_name());
+            subjectDetailIntent.putExtra("unique_code",course.getUniqueNumber());
             subjectDetailIntent.putExtra("number",course.getCourse_num());
             subjectDetailIntent.putExtra("strength",course.getCourse_strength());
             subjectDetailIntent.putExtra("time",course.getCourse_time());

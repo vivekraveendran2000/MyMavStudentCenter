@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -209,6 +210,10 @@ public class SearchInput extends Activity implements View.OnClickListener{
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
+
+                            SharedPreferences prefs = context.getSharedPreferences(
+                                    "studentcenter", Context.MODE_PRIVATE);
+                            prefs.edit().putString("search_term", getTerm()).apply();
 
                             runOnUiThread(new Runnable() {
                                 @Override

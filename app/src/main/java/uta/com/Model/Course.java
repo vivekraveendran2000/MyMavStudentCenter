@@ -6,6 +6,7 @@ package uta.com.Model;
 public class Course {
 
     String course_name;
+    String uniqueNumber;
     String course_strength;
     String course_time;
     String room_no;
@@ -16,6 +17,14 @@ public class Course {
 
     public String getCourse_name() {
         return course_name;
+    }
+
+    public String getUniqueNumber() {
+        return uniqueNumber;
+    }
+
+    public void setUniqueNumber(String uniqueNumber) {
+        this.uniqueNumber = uniqueNumber;
     }
 
     public void setCourse_name(String course_name) {
