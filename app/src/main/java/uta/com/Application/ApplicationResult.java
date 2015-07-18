@@ -164,7 +164,22 @@ public class ApplicationResult extends Activity  implements  View.OnClickListene
         @Override
         public void onClick(View v) {
 
+            try {
 
+                Application tmpAppl = new Application();
+                tmpAppl = applicationList.get(position);
+
+                Intent applicationDetailIntent = new Intent(context, ApplicationDetail.class);
+                applicationDetailIntent.putExtra("name", tmpAppl.getName());
+                applicationDetailIntent.putExtra("number", tmpAppl.getNumber());
+                applicationDetailIntent.putExtra("status", tmpAppl.getStatus());
+                applicationDetailIntent.putExtra("date", tmpAppl.getDate());
+                startActivity(applicationDetailIntent);
+
+            }catch (Exception e){
+
+                e.printStackTrace();
+            }
         }
     }
 }
