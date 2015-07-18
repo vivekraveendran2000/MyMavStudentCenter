@@ -16,6 +16,7 @@ import android.widget.Toast;
 import org.json.JSONObject;
 
 import uta.com.Application.ApplicationResult;
+import uta.com.ToDoList.ToDoListResult;
 
 
 /**
@@ -69,7 +70,6 @@ public class ProspectiveHome extends Activity implements View.OnClickListener{
                             Intent loginIntent = new Intent(ProspectiveHome.this, login.class);
                             startActivity(loginIntent);
                             finish();
-
                         }
                     });
                 }
@@ -157,14 +157,14 @@ public class ProspectiveHome extends Activity implements View.OnClickListener{
     class ToDoListBackground extends AsyncTask<String, String, String> {
 
         private Exception exception;
-        String applicationData;
+        String toDoListData;
 
         protected String doInBackground(String... urls) {
             try {
 
                 SharedPreferences prefs = context.getSharedPreferences("studentcenter", Context.MODE_PRIVATE);
                 String netid = prefs.getString("net_id","");
-                applicationData = Webservice.getToDoList(netid);
+                toDoListData = Webservice.getToDoList(netid);
 
             } catch (Exception e) {
                 this.exception = e;
@@ -172,10 +172,10 @@ public class ProspectiveHome extends Activity implements View.OnClickListener{
             return "";
         }
 
-        protected void onPostExecute(String result) {
+        protected void onPostExecute(final String result) {
 
             try {
-                if (applicationData.equals("failed")) {
+                if (toDoListData.equals("failed")) {
 
                     Toast.makeText(getApplicationContext(), "To do list not found",
                             Toast.LENGTH_SHORT).show();
@@ -193,8 +193,9 @@ public class ProspectiveHome extends Activity implements View.OnClickListener{
                                 }
                             });
 
-                            Toast.makeText(getApplicationContext(), "To do list retrieved",
-                                    Toast.LENGTH_SHORT).show();
+                            Intent toDoListIntent = new Intent(ProspectiveHome.this, ToDoListResult.class);
+                            toDoListIntent.putExtra("result", toDoListData);
+                            startActivity(toDoListIntent);
 
                         }
                     }, 1000);
