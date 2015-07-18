@@ -160,11 +160,12 @@ public class ToDoListResult extends Activity implements View.OnClickListener{
                 ToDoList toDoTemp = new ToDoList();
                 toDoTemp = toDoList.get(position);
 
-//                Intent toDoListDetailIntent = new Intent(context, .class);
-//                toDoListDetailIntent.putExtra("number", toDoTemp.getNumber());
-//                toDoListDetailIntent.putExtra("description", toDoTemp.getDescription());
-//                toDoListDetailIntent.putExtra("date", toDoTemp.getDate());
-//                startActivity(toDoListDetailIntent);
+                Intent toDoListDetailIntent = new Intent(context, ToDoListDetail.class);
+                toDoListDetailIntent.putExtra("name", toDoTemp.getName());
+                toDoListDetailIntent.putExtra("number", toDoTemp.getNumber());
+                toDoListDetailIntent.putExtra("description", toDoTemp.getDescription());
+                toDoListDetailIntent.putExtra("date", toDoTemp.getDate());
+                startActivity(toDoListDetailIntent);
 
             }catch (Exception e){
 
