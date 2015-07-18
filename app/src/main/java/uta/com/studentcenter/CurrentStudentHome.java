@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import uta.com.Cart.CartHome;
 import uta.com.search.SearchInput;
 
 /**
@@ -73,6 +74,11 @@ public class CurrentStudentHome extends Activity implements View.OnClickListener
 
                     Intent searchInputIntent = new Intent(CurrentStudentHome.this, SearchInput.class);
                     startActivity(searchInputIntent);
+
+                }else if(position == 1){
+
+                    Intent cartHomeIntent = new Intent(CurrentStudentHome.this, CartHome.class);
+                    startActivity(cartHomeIntent);
                 }
             }
         });
