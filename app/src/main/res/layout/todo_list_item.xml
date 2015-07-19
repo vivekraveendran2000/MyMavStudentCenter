@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="80dp"
-    android:background="#FFF">
+    android:background="#ADD8E6">
 
     <LinearLayout
         android:id="@+id/layout_search_course"
@@ -18,7 +18,8 @@
             android:layout_marginLeft="15dp"
             android:textSize="25sp"
             android:text="CSE5324"
-            android:textStyle="bold"
+            android:textStyle="italic"
+            android:textColor="#000"
             />
     </LinearLayout>
 
@@ -27,9 +28,9 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/right_arrow2"/>
+        android:background="@drawable/right_arrow3"/>
 
 
 </RelativeLayout>
