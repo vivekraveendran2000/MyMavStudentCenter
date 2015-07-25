@@ -32,6 +32,7 @@
         <activity android:name="uta.com.ToDoList.ToDoListResult"/>
         <activity android:name="uta.com.ToDoList.ToDoListDetail"/>
         <activity android:name="uta.com.Cart.CartHome"/>
+        <activity android:name="uta.com.Cart.ViewCart"/>
 
     </application>
 

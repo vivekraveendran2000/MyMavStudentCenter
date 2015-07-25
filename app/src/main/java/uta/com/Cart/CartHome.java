@@ -45,6 +45,11 @@ public class CartHome extends Activity implements View.OnClickListener{
             Intent searchIntent = new Intent(CartHome.this, SearchInput.class);
             startActivity(searchIntent);
 
+        }else if(v.equals(viewBtn)){
+
+            Intent viewCartIntent = new Intent(CartHome.this, ViewCart.class);
+            startActivity(viewCartIntent);
+
         }else if (v.equals(backBtn)){
 
             finish();
