@@ -26,7 +26,7 @@ import uta.com.studentcenter.Webservice;
  */
 public class SearchSubjectDetails extends Activity implements View.OnClickListener {
 
-    String courseNumber, uniqueCode, courseName, instructor, startDate, endDate, room, strength, time;
+    String courseNumber, uniqueCode, courseName, instructor, startDate, endDate, room, strength, time, predecessorPage;
     TextView courseNumberTxt, courseNameTxt, instructorTxt, startDateTxt, endDateTxt, roomTxt, strengthTxt, timeTxt;
     ImageButton backButton;
     Button addToCart;
@@ -61,6 +61,7 @@ public class SearchSubjectDetails extends Activity implements View.OnClickListen
             instructor = extras.getString("instructor");
             room = extras.getString("room");
             startDate = extras.getString("start_date");
+            predecessorPage = extras.getString("coming_from");
         }
     }
 
@@ -80,6 +81,12 @@ public class SearchSubjectDetails extends Activity implements View.OnClickListen
 
         addToCart = (Button) findViewById(R.id.btn_search_detail_addcart);
         addToCart.setOnClickListener(this);
+
+        if (predecessorPage.equals("view_cart")){
+            addToCart.setText("Enroll");
+        }else{
+            addToCart.setText("Add to cart");
+        }
     }
 
     void loadData() {
@@ -102,8 +109,12 @@ public class SearchSubjectDetails extends Activity implements View.OnClickListen
 
         }else if(v.equals(addToCart)){
 
-            progressDialog = ProgressDialog.show(context, "Cart", "Adding to your cart ..", true);
-            new AddToCartBackground().execute("");
+            if (predecessorPage.equals("Add to cart")) {
+                progressDialog = ProgressDialog.show(context, "Cart", "Adding to your cart ..", true);
+                new AddToCartBackground().execute("");
+            }else{
+
+            }
         }
     }
 
