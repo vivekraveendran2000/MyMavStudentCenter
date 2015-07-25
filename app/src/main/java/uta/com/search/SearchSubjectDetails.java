@@ -109,7 +109,7 @@ public class SearchSubjectDetails extends Activity implements View.OnClickListen
 
         }else if(v.equals(addToCart)){
 
-            if (predecessorPage.equals("Add to cart")) {
+            if (predecessorPage.equals("search_result")) {
                 progressDialog = ProgressDialog.show(context, "Cart", "Adding to your cart ..", true);
                 new AddToCartBackground().execute("");
             }else{
