@@ -15,6 +15,7 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +31,7 @@ public class CurrentStudentHome extends Activity implements View.OnClickListener
     ImageButton signout;
     ProgressDialog progressDialog;
     Context context;
+    Spinner termSpinner;
 
     String[] gridItems = {
             "Search",
@@ -67,9 +69,15 @@ public class CurrentStudentHome extends Activity implements View.OnClickListener
 
         grid = (GridView) findViewById(R.id.current_student_home_grid);
         grid.setAdapter(new CustomGrid(this,gridItems, imageId));
+        termSpinner = (Spinner) findViewById(R.id.current_home_term_spinner);
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                SharedPreferences prefs = context.getSharedPreferences(
+                        "studentcenter", Context.MODE_PRIVATE);
+                prefs.edit().putString("home_term", termSpinner.getSelectedItem().toString()).apply();
+
                 if (position == 0) {
 
                     Intent searchInputIntent = new Intent(CurrentStudentHome.this, SearchInput.class);

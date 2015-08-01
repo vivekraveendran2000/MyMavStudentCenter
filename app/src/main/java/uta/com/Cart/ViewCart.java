@@ -47,68 +47,56 @@ public class ViewCart extends Activity implements View.OnClickListener{
 
     void initData(){
 
-//        try {
-//            String result = "";
-//            Bundle extras = getIntent().getExtras();
-//            if (extras != null) {
-//                result = extras.getString("result");
-//            }
-//            Log.e("result", result);
-//
-//            JSONArray mJsonArray = new JSONArray(result);
-//            cartCourses = new ArrayList<Course>(mJsonArray.length());
-//            JSONObject mJsonObject = new JSONObject();
-//            for (int i = 0; i < mJsonArray.length(); i++) {
-//
-//                mJsonObject = mJsonArray.getJSONObject(i);
-//                tempCourse = new Course();
-//                if(mJsonObject.getString("course_name") != null) {
-//                    tempCourse.setCourse_name(mJsonObject.getString("course_name"));
-//                }
-//
-//                if(mJsonObject.getString("unique_code") != null) {
-//                    tempCourse.setUniqueNumber(mJsonObject.getString("unique_code"));
-//                }
-//
-//                if(mJsonObject.getString("course_strength") != null) {
-//                    tempCourse.setCourse_strength(mJsonObject.getString("course_strength"));
-//                }
-//                if(mJsonObject.getString("course_time") != null) {
-//                    tempCourse.setCourse_time(mJsonObject.getString("course_time"));
-//                }
-//                if(mJsonObject.getString("room_no") != null) {
-//                    tempCourse.setRoom_no(mJsonObject.getString("room_no"));
-//                }
-//                if(mJsonObject.getString("start_date") != null) {
-//                    tempCourse.setStart_date(mJsonObject.getString("start_date"));
-//                }
-//                if(mJsonObject.getString("end_date") != null) {
-//                    tempCourse.setEnd_date(mJsonObject.getString("end_date"));
-//                }
-//                if(mJsonObject.getString("course_num") != null) {
-//                    tempCourse.setCourse_num(mJsonObject.getString("course_num"));
-//                }
-//                if(mJsonObject.getString("instructor_name") != null) {
-//                    tempCourse.setInstructor_name(mJsonObject.getString("instructor_name"));
-//                }
-//
-//                cartCourses.add(tempCourse);
-//
-//            }
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
+        try {
+            String result = "";
+            Bundle extras = getIntent().getExtras();
+            if (extras != null) {
+                result = extras.getString("result");
+            }
+            Log.e("result", result);
 
+            JSONArray mJsonArray = new JSONArray(result);
+            cartCourses = new ArrayList<Course>(mJsonArray.length());
+            JSONObject mJsonObject = new JSONObject();
+            for (int i = 0; i < mJsonArray.length(); i++) {
 
-        cartCourses = new ArrayList<Course>(15);
+                mJsonObject = mJsonArray.getJSONObject(i);
+                tempCourse = new Course();
+                if(mJsonObject.getString("course_name") != null) {
+                    tempCourse.setCourse_name(mJsonObject.getString("course_name"));
+                }
 
+                if(mJsonObject.getString("unique_code") != null) {
+                    tempCourse.setUniqueNumber(mJsonObject.getString("unique_code"));
+                }
 
-        for(int i = 0; i < 15; i++){
-            tempCourse = new Course();
-            tempCourse.setCourse_name("Software Engeneering");
-            tempCourse.setCourse_num("CSE 5324");
-            tempCourse.setInstructor_name("John Robb");
-            cartCourses.add(tempCourse);
+                if(mJsonObject.getString("course_strength") != null) {
+                    tempCourse.setCourse_strength(mJsonObject.getString("course_strength"));
+                }
+                if(mJsonObject.getString("course_time") != null) {
+                    tempCourse.setCourse_time(mJsonObject.getString("course_time"));
+                }
+                if(mJsonObject.getString("room_no") != null) {
+                    tempCourse.setRoom_no(mJsonObject.getString("room_no"));
+                }
+                if(mJsonObject.getString("start_date") != null) {
+                    tempCourse.setStart_date(mJsonObject.getString("start_date"));
+                }
+                if(mJsonObject.getString("end_date") != null) {
+                    tempCourse.setEnd_date(mJsonObject.getString("end_date"));
+                }
+                if(mJsonObject.getString("course_num") != null) {
+                    tempCourse.setCourse_num(mJsonObject.getString("course_num"));
+                }
+                if(mJsonObject.getString("instructor_name") != null) {
+                    tempCourse.setInstructor_name(mJsonObject.getString("instructor_name"));
+                }
+
+                cartCourses.add(tempCourse);
+
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 
