@@ -76,7 +76,7 @@ public class CurrentStudentHome extends Activity implements View.OnClickListener
 
                 SharedPreferences prefs = context.getSharedPreferences(
                         "studentcenter", Context.MODE_PRIVATE);
-                prefs.edit().putString("home_term", termSpinner.getSelectedItem().toString()).apply();
+                prefs.edit().putString("search_term", termSpinner.getSelectedItem().toString()).apply();
 
                 if (position == 0) {
 

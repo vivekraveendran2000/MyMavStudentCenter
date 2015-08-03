@@ -83,7 +83,7 @@ public class CartHome extends Activity implements View.OnClickListener{
 
                 SharedPreferences prefs = context.getSharedPreferences(
                         "studentcenter", Context.MODE_PRIVATE);
-                term = prefs.getString("home_term","");
+                term = prefs.getString("search_term","");
                 netId = prefs.getString("net_id","");
 
                 cartDetails = Webservice.viewCart(netId,term);

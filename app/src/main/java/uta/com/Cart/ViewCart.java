@@ -1,9 +1,13 @@
 package uta.com.Cart;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +17,7 @@ import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -22,6 +27,7 @@ import java.util.ArrayList;
 import uta.com.Model.Course;
 import uta.com.search.SearchSubjectDetails;
 import uta.com.studentcenter.R;
+import uta.com.studentcenter.Webservice;
 
 /**
  * Created by vivekraveendran on 7/25/2015.
@@ -34,6 +40,9 @@ public class ViewCart extends Activity implements View.OnClickListener{
     ArrayList<Course> cartCourses;
     Course tempCourse;
     JSONObject cartJson;
+    ProgressDialog progressDialog;
+    String result;
+    ListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,19 +50,17 @@ public class ViewCart extends Activity implements View.OnClickListener{
 
         setContentView(R.layout.view_cart);
         context = this;
-        initData();
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            result = extras.getString("result");
+        }
+        initData(result);
         initViews();
     }
 
-    void initData(){
+    void initData(String result){
 
         try {
-            String result = "";
-            Bundle extras = getIntent().getExtras();
-            if (extras != null) {
-                result = extras.getString("result");
-            }
-            Log.e("result", result);
 
             JSONArray mJsonArray = new JSONArray(result);
             cartCourses = new ArrayList<Course>(mJsonArray.length());
@@ -105,7 +112,9 @@ public class ViewCart extends Activity implements View.OnClickListener{
         backBtn = (ImageButton) findViewById(R.id.btn_view_cart_back);
         backBtn.setOnClickListener(this);
         listView = (ListView) findViewById(R.id.view_cart_list);
-        listView.setAdapter(new ListAdapter(cartCourses));
+        adapter = new ListAdapter(cartCourses);
+        listView.setAdapter(adapter);
+
 
     }
 
@@ -116,6 +125,84 @@ public class ViewCart extends Activity implements View.OnClickListener{
             finish();
         }
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+
+                progressDialog = ProgressDialog.show(context, "Cart", "Retrieving cart items ..", true);
+                new GetCartBackground().execute("");
+            }
+        }
+    }
+
+    class GetCartBackground extends AsyncTask<String, String, String> {
+
+        private Exception exception;
+        String cartDetails;
+        String term;
+        String netId;
+
+        protected String doInBackground(String... urls) {
+            try {
+
+                SharedPreferences prefs = context.getSharedPreferences(
+                        "studentcenter", Context.MODE_PRIVATE);
+                term = prefs.getString("search_term","");
+                netId = prefs.getString("net_id","");
+
+                cartDetails = Webservice.viewCart(netId, term);
+
+            } catch (Exception e) {
+                this.exception = e;
+            }
+            return cartDetails;
+        }
+
+        protected void onPostExecute(String result) {
+
+            try {
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+
+                        if (cartDetails.equals("failed")){
+
+
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    progressDialog.dismiss();
+                                }
+                            });
+                            Toast.makeText(getApplicationContext(), "Cart empty",
+                                    Toast.LENGTH_SHORT).show();
+                        }else{
+
+                            initData(cartDetails);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    adapter.notifyDataSetChanged();
+                                    progressDialog.dismiss();
+                                }
+                            });
+                        }
+
+
+                    }
+                }, 1000);
+
+            }catch (Exception e){
+
+            }
+        }
+    }
+
+
 
     public class ListAdapter extends BaseAdapter implements  View.OnClickListener{
 
@@ -190,11 +277,11 @@ public class ViewCart extends Activity implements View.OnClickListener{
             subjectDetailIntent.putExtra("time",course.getCourse_time());
             subjectDetailIntent.putExtra("end_date",course.getEnd_date());
             subjectDetailIntent.putExtra("instructor",course.getInstructor_name());
-            subjectDetailIntent.putExtra("room",course.getRoom_no());
+            subjectDetailIntent.putExtra("room", course.getRoom_no());
             subjectDetailIntent.putExtra("start_date",course.getStart_date());
-            subjectDetailIntent.putExtra("coming_from","view_cart");
+            subjectDetailIntent.putExtra("coming_from", "view_cart");
 
-            context.startActivity(subjectDetailIntent);
+            startActivityForResult(subjectDetailIntent,1);
         }
     }
 }

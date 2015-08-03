@@ -201,6 +201,7 @@ public class SearchResult extends Activity implements View.OnClickListener{
             subjectDetailIntent.putExtra("instructor",course.getInstructor_name());
             subjectDetailIntent.putExtra("room",course.getRoom_no());
             subjectDetailIntent.putExtra("start_date",course.getStart_date());
+            subjectDetailIntent.putExtra("coming_from","search_result");
 
             context.startActivity(subjectDetailIntent);
         }

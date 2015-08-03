@@ -28,7 +28,7 @@ public class SearchSubjectDetails extends Activity implements View.OnClickListen
 
     String courseNumber, uniqueCode, courseName, instructor, startDate, endDate, room, strength, time, predecessorPage;
     TextView courseNumberTxt, courseNameTxt, instructorTxt, startDateTxt, endDateTxt, roomTxt, strengthTxt, timeTxt;
-    ImageButton backButton;
+    ImageButton backButton, removeFromCartBtn;
     Button addToCart;
     ProgressDialog progressDialog;
     Context context;
@@ -48,6 +48,7 @@ public class SearchSubjectDetails extends Activity implements View.OnClickListen
     }
 
     void initData() {
+
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -79,11 +80,15 @@ public class SearchSubjectDetails extends Activity implements View.OnClickListen
         backButton = (ImageButton) findViewById(R.id.btn_search_subject_detail);
         backButton.setOnClickListener(this);
 
+        removeFromCartBtn = (ImageButton) findViewById(R.id.btn_cart_remove);
+        removeFromCartBtn.setOnClickListener(this);
+
         addToCart = (Button) findViewById(R.id.btn_search_detail_addcart);
         addToCart.setOnClickListener(this);
 
         if (predecessorPage.equals("view_cart")){
             addToCart.setText("Enroll");
+            removeFromCartBtn.setVisibility(View.VISIBLE);
         }else{
             addToCart.setText("Add to cart");
         }
@@ -110,11 +115,16 @@ public class SearchSubjectDetails extends Activity implements View.OnClickListen
         }else if(v.equals(addToCart)){
 
             if (predecessorPage.equals("search_result")) {
+
                 progressDialog = ProgressDialog.show(context, "Cart", "Adding to your cart ..", true);
                 new AddToCartBackground().execute("");
             }else{
 
             }
+        }else if (v.equals(removeFromCartBtn)){
+
+            progressDialog = ProgressDialog.show(context, "Cart", "Removing from cart ..", true);
+            new RemoveFromCartBackground().execute("");
         }
     }
 
@@ -173,6 +183,72 @@ public class SearchSubjectDetails extends Activity implements View.OnClickListen
                                         Toast.LENGTH_SHORT).show();
                             }
                         }, 1000);
+                }
+            }catch (Exception e){
+
+            }
+        }
+    }
+
+    class RemoveFromCartBackground extends AsyncTask<String, String, String> {
+
+        private Exception exception;
+        String response;
+
+        protected String doInBackground(String... urls) {
+            try {
+
+                SharedPreferences prefs = context.getSharedPreferences(
+                        "studentcenter", Context.MODE_PRIVATE);
+                String term =  prefs.getString("search_term", "");
+                String netId = prefs.getString("net_id", "");
+                String uniquecode = uniqueCode;
+
+                response = Webservice.removeFromCart(netId, term, uniquecode);
+
+            } catch (Exception e) {
+                this.exception = e;
+            }
+            return response;
+        }
+
+        protected void onPostExecute(String result) {
+
+            try {
+                if (response.equals("failed")){
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    progressDialog.dismiss();
+                                }
+                            });
+                            Toast.makeText(getApplicationContext(), "Failed to remove from cart",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    }, 1000);
+
+
+                }else{
+
+                    Toast.makeText(getApplicationContext(), "Course removed from cart",
+                            Toast.LENGTH_SHORT).show();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+
+
+                            progressDialog.dismiss();
+                            Intent intent = new Intent();
+                            setResult(RESULT_OK, intent);
+                            finish();
+                        }
+                    }, 1500);
                 }
             }catch (Exception e){
 

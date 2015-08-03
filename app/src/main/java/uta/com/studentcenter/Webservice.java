@@ -283,4 +283,224 @@ public class Webservice {
             return null;
         }
     }
+
+    public static String removeFromCart(String netId, String term, String uniqueCode){
+
+        try {
+
+            URL url = new URL("http://omega.uta.edu/~sxa6933/StudentCenter/remove_cart.php");
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            String urlParameters = "netid=" + netId  + "&term=" + term + "&unique_code=" + uniqueCode;
+            urlConnection.setRequestMethod("POST");
+            urlConnection.setRequestProperty("Content-Length", "" +
+                    Integer.toString(urlParameters.getBytes().length));
+
+            urlConnection.setRequestProperty("Content-Language", "en-US");
+
+            urlConnection.setUseCaches (false);
+            urlConnection.setDoInput(true);
+            urlConnection.setDoOutput(true);
+
+            //Send request
+            DataOutputStream wr = new DataOutputStream ( urlConnection.getOutputStream ());
+            wr.writeBytes(urlParameters);
+
+            wr.flush ();
+            wr.close ();
+
+            //Get Response
+            InputStream is = urlConnection.getInputStream();
+            BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+            String line;
+            StringBuffer response = new StringBuffer();
+            while((line = rd.readLine()) != null) {
+                response.append(line);
+                //response.append('\r');
+            }
+            rd.close();
+            String output = response.toString();
+            return  output;
+
+        }catch(Exception e){
+
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static String enroll(String netId, String term, String uniqueCode){
+
+        try {
+
+            URL url = new URL("http://omega.uta.edu/~sxa6933/StudentCenter/enroll_course.php");
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            String urlParameters = "netid=" + netId  + "&term=" + term + "&unique_code=" + uniqueCode;
+            urlConnection.setRequestMethod("POST");
+            urlConnection.setRequestProperty("Content-Length", "" +
+                    Integer.toString(urlParameters.getBytes().length));
+
+            urlConnection.setRequestProperty("Content-Language", "en-US");
+
+            urlConnection.setUseCaches (false);
+            urlConnection.setDoInput(true);
+            urlConnection.setDoOutput(true);
+
+            //Send request
+            DataOutputStream wr = new DataOutputStream ( urlConnection.getOutputStream ());
+            wr.writeBytes(urlParameters);
+
+            wr.flush ();
+            wr.close ();
+
+            //Get Response
+            InputStream is = urlConnection.getInputStream();
+            BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+            String line;
+            StringBuffer response = new StringBuffer();
+            while((line = rd.readLine()) != null) {
+                response.append(line);
+                //response.append('\r');
+            }
+            rd.close();
+            String output = response.toString();
+            return  output;
+
+        }catch(Exception e){
+
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static String viewSchedule(String netId, String term){
+
+        try {
+
+            URL url = new URL("http://omega.uta.edu/~sxa6933/StudentCenter/view_schedule.php");
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            String urlParameters = "netid=" + netId  + "&term=" + term ;
+            urlConnection.setRequestMethod("POST");
+            urlConnection.setRequestProperty("Content-Length", "" +
+                    Integer.toString(urlParameters.getBytes().length));
+
+            urlConnection.setRequestProperty("Content-Language", "en-US");
+
+            urlConnection.setUseCaches (false);
+            urlConnection.setDoInput(true);
+            urlConnection.setDoOutput(true);
+
+            //Send request
+            DataOutputStream wr = new DataOutputStream ( urlConnection.getOutputStream ());
+            wr.writeBytes(urlParameters);
+
+            wr.flush ();
+            wr.close ();
+
+            //Get Response
+            InputStream is = urlConnection.getInputStream();
+            BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+            String line;
+            StringBuffer response = new StringBuffer();
+            while((line = rd.readLine()) != null) {
+                response.append(line);
+                //response.append('\r');
+            }
+            rd.close();
+            String output = response.toString();
+            return  output;
+
+        }catch(Exception e){
+
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static String drop(String netId, String term, String uniqueCode){
+
+        try {
+
+            URL url = new URL("http://omega.uta.edu/~sxa6933/StudentCenter/drop_course.php");
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            String urlParameters = "netid=" + netId  + "&term=" + term  + "&unique_code=" + uniqueCode;
+            urlConnection.setRequestMethod("POST");
+            urlConnection.setRequestProperty("Content-Length", "" +
+                    Integer.toString(urlParameters.getBytes().length));
+
+            urlConnection.setRequestProperty("Content-Language", "en-US");
+
+            urlConnection.setUseCaches (false);
+            urlConnection.setDoInput(true);
+            urlConnection.setDoOutput(true);
+
+            //Send request
+            DataOutputStream wr = new DataOutputStream ( urlConnection.getOutputStream ());
+            wr.writeBytes(urlParameters);
+
+            wr.flush ();
+            wr.close ();
+
+            //Get Response
+            InputStream is = urlConnection.getInputStream();
+            BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+            String line;
+            StringBuffer response = new StringBuffer();
+            while((line = rd.readLine()) != null) {
+                response.append(line);
+                //response.append('\r');
+            }
+            rd.close();
+            String output = response.toString();
+            return  output;
+
+        }catch(Exception e){
+
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static String swap(String netId, String term, String dropCourseUniqueCode, String swapCourseUniqueCode){
+
+        try {
+
+            URL url = new URL("http://omega.uta.edu/~sxa6933/StudentCenter/swap_course.php");
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            String urlParameters = "netid=" + netId  + "&term=" + term + "&unique_code_drop=" + dropCourseUniqueCode + "&unique_code_swap=" + swapCourseUniqueCode;
+            urlConnection.setRequestMethod("POST");
+            urlConnection.setRequestProperty("Content-Length", "" +
+                    Integer.toString(urlParameters.getBytes().length));
+
+            urlConnection.setRequestProperty("Content-Language", "en-US");
+
+            urlConnection.setUseCaches (false);
+            urlConnection.setDoInput(true);
+            urlConnection.setDoOutput(true);
+
+            //Send request
+            DataOutputStream wr = new DataOutputStream ( urlConnection.getOutputStream ());
+            wr.writeBytes(urlParameters);
+
+            wr.flush ();
+            wr.close ();
+
+            //Get Response
+            InputStream is = urlConnection.getInputStream();
+            BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+            String line;
+            StringBuffer response = new StringBuffer();
+            while((line = rd.readLine()) != null) {
+                response.append(line);
+                //response.append('\r');
+            }
+            rd.close();
+            String output = response.toString();
+            return  output;
+
+        }catch(Exception e){
+
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
