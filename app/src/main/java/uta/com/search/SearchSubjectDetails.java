@@ -120,6 +120,8 @@ public class SearchSubjectDetails extends Activity implements View.OnClickListen
                 new AddToCartBackground().execute("");
             }else{
 
+                progressDialog = ProgressDialog.show(context, "Enroll", "Enrolling ...", true);
+                new Enroll().execute("");
             }
         }else if (v.equals(removeFromCartBtn)){
 
@@ -252,6 +254,64 @@ public class SearchSubjectDetails extends Activity implements View.OnClickListen
                 }
             }catch (Exception e){
 
+            }
+        }
+    }
+
+    class Enroll extends AsyncTask<String, String, String> {
+
+        private Exception exception;
+        String response;
+
+        protected String doInBackground(String... urls) {
+            try {
+
+                SharedPreferences prefs = context.getSharedPreferences(
+                        "studentcenter", Context.MODE_PRIVATE);
+                String term =  prefs.getString("search_term", "");
+                String netId = prefs.getString("net_id", "");
+                String uniquecode = uniqueCode;
+
+                response = Webservice.enroll(netId, term, uniquecode);
+
+            } catch (Exception e) {
+                this.exception = e;
+            }
+            return response;
+        }
+
+        protected void onPostExecute(String result) {
+
+            try {
+
+                JSONObject mJsonObject = new JSONObject(response);
+                final String statusMessage = mJsonObject.getString("success");
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                progressDialog.dismiss();
+                            }
+                        });
+                        Toast.makeText(getApplicationContext(), statusMessage,
+                                Toast.LENGTH_LONG).show();
+                    }
+                }, 1000);
+            }catch (Exception e){
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        progressDialog.dismiss();
+                    }
+                });
+                Toast.makeText(getApplicationContext(), "Error",
+                        Toast.LENGTH_LONG).show();
             }
         }
     }
