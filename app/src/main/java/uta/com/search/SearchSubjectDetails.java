@@ -285,7 +285,7 @@ public class SearchSubjectDetails extends Activity implements View.OnClickListen
             try {
 
                 JSONObject mJsonObject = new JSONObject(response);
-                final String statusMessage = mJsonObject.getString("success");
+                final String statusMessage = mJsonObject.getString("message");
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
