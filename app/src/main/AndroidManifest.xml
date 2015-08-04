@@ -33,6 +33,7 @@
         <activity android:name="uta.com.ToDoList.ToDoListDetail"/>
         <activity android:name="uta.com.Cart.CartHome"/>
         <activity android:name="uta.com.Cart.ViewCart"/>
+        <activity android:name="uta.com.Enroll.EnrollHome"/>
 
     </application>
 

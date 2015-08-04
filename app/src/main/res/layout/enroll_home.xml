@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@drawable/background" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/header_blue">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_margin="5dp"
+            android:text="Enroll"
+            android:textColor="#FFF"
+            android:textSize="30sp"
+            android:textStyle="bold"/>
+
+        <ImageButton
+            android:id="@+id/btn_enroll_home_back"
+            android:layout_width="75dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/back_button"/>
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:layout_centerInParent="true">
+
+        <Button
+            android:id="@+id/btn_enroll_home_enroll"
+            android:layout_width="220dp"
+            android:layout_height="60dp"
+            android:text="Enroll"
+            android:textColor="#FFF"
+            android:background="@drawable/header_blue"
+            android:layout_gravity="center_horizontal"
+            android:textStyle="bold"
+            android:textSize="18sp"/>
+
+        <Button
+            android:id="@+id/btn_enroll_home_schedule"
+            android:layout_width="220dp"
+            android:layout_height="60dp"
+            android:text="View schedule"
+            android:textColor="#FFF"
+            android:background="@drawable/header_blue"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="15dp"
+            android:textStyle="bold"
+            android:textSize="18sp"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
