@@ -171,22 +171,26 @@ public class ViewCart extends Activity implements View.OnClickListener{
 
                         if (cartDetails.equals("failed")){
 
-
+                            cartCourses = new ArrayList<Course>();
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
+                                    adapter = null;
+                                    adapter = new ListAdapter(cartCourses);
+                                    listView.setAdapter(adapter);
                                     progressDialog.dismiss();
                                 }
                             });
-                            Toast.makeText(getApplicationContext(), "Cart empty",
-                                    Toast.LENGTH_SHORT).show();
+                            ;
                         }else{
 
                             initData(cartDetails);
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    adapter.notifyDataSetChanged();
+                                    adapter = null;
+                                    adapter = new ListAdapter(cartCourses);
+                                    listView.setAdapter(adapter);
                                     progressDialog.dismiss();
                                 }
                             });
