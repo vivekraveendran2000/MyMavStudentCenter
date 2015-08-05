@@ -1,14 +1,21 @@
 package uta.com.Enroll;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import uta.com.studentcenter.R;
+import uta.com.studentcenter.Webservice;
 
 /**
  * Created by vivekraveendran on 8/4/2015.
@@ -20,6 +27,7 @@ public class EnrollSubjectDetail extends Activity implements View.OnClickListene
     ImageButton backButton;
     Button dropBtn, swapBtn;
     Context context;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +73,7 @@ public class EnrollSubjectDetail extends Activity implements View.OnClickListene
         strengthTxt = (TextView) findViewById(R.id.txt_detail_strength);
         timeTxt = (TextView) findViewById(R.id.txt_detail_time);
 
-        backButton = (ImageButton) findViewById(R.id.btn_search_subject_detail);
+        backButton = (ImageButton) findViewById(R.id.btn_enroll_subject_detail_back);
         backButton.setOnClickListener(this);
 
         dropBtn = (Button) findViewById(R.id.btn_enroll_subject_drop);
@@ -91,6 +99,80 @@ public class EnrollSubjectDetail extends Activity implements View.OnClickListene
     @Override
     public void onClick(View v) {
 
+        if (v.equals(backButton)){
 
+            finish();
+        } else if (v.equals(dropBtn)){
+
+            progressDialog = ProgressDialog.show(context, "Drop", "Dropping course ..", true);
+            new DroptBackground().execute("");
+        }
+
+    }
+
+    class DroptBackground extends AsyncTask<String, String, String> {
+
+        private Exception exception;
+        String response;
+
+        protected String doInBackground(String... urls) {
+            try {
+
+                SharedPreferences prefs = context.getSharedPreferences(
+                        "studentcenter", Context.MODE_PRIVATE);
+                String term =  prefs.getString("search_term", "");
+                String netId = prefs.getString("net_id", "");
+                String uniquecode = uniqueCode;
+
+                response = Webservice.drop(netId, term, uniquecode);
+
+            } catch (Exception e) {
+                this.exception = e;
+            }
+            return response;
+        }
+
+        protected void onPostExecute(String result) {
+
+            try {
+                if (response.equals("failed")){
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    progressDialog.dismiss();
+                                }
+                            });
+                            Toast.makeText(getApplicationContext(), "Course couldnt be dropped",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    }, 1000);
+
+
+                }else{
+
+                    Toast.makeText(getApplicationContext(), "Course dropped",
+                            Toast.LENGTH_SHORT).show();
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            progressDialog.dismiss();
+                            Intent intent = new Intent();
+                            setResult(RESULT_OK, intent);
+                            finish();
+                        }
+                    }, 1500);
+                }
+            }catch (Exception e){
+
+            }
+        }
     }
 }

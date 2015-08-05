@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +22,7 @@ import java.util.ArrayList;
 import uta.com.Model.Course;
 import uta.com.search.SearchSubjectDetails;
 import uta.com.studentcenter.R;
+import uta.com.studentcenter.Webservice;
 
 /**
  * Created by vivekraveendran on 8/4/2015.
@@ -114,6 +118,83 @@ public class ViewSchedule extends Activity implements View.OnClickListener{
 
         if(v.equals(backBtn)){
             finish();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+
+                progressDialog = ProgressDialog.show(context, "Cart", "Retrieving cart items ..", true);
+                new GetScheduleBackground().execute("");
+            }
+        }
+    }
+
+    class GetScheduleBackground extends AsyncTask<String, String, String> {
+
+        private Exception exception;
+        String schedule;
+        String term;
+        String netId;
+
+        protected String doInBackground(String... urls) {
+            try {
+
+                SharedPreferences prefs = context.getSharedPreferences(
+                        "studentcenter", Context.MODE_PRIVATE);
+                term = prefs.getString("search_term","");
+                netId = prefs.getString("net_id","");
+
+                schedule = Webservice.viewSchedule(netId, term);
+
+            } catch (Exception e) {
+                this.exception = e;
+            }
+            return schedule;
+        }
+
+        protected void onPostExecute(String result) {
+
+            try {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        if (schedule.equals("failed")){
+
+                            scheduleCourses = new ArrayList<Course>();
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    adapter = null;
+                                    adapter = new ListAdapter(scheduleCourses);
+                                    listView.setAdapter(adapter);
+                                    progressDialog.dismiss();
+                                }
+                            });
+                            ;
+                        }else{
+
+                            initData(schedule);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    adapter = null;
+                                    adapter = new ListAdapter(scheduleCourses);
+                                    listView.setAdapter(adapter);
+                                    progressDialog.dismiss();
+                                }
+                            });
+                        }
+                    }
+                }, 1000);
+
+            }catch (Exception e){
+
+            }
         }
     }
 

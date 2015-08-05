@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import uta.com.Cart.ViewCart;
@@ -21,6 +22,7 @@ import uta.com.studentcenter.Webservice;
  */
 public class EnrollHome extends Activity implements View.OnClickListener{
 
+    ImageButton backBtn;
     Button enrollBtn, viewScheduleBtn;
     Context context;
     ProgressDialog progressDialog;
@@ -36,6 +38,9 @@ public class EnrollHome extends Activity implements View.OnClickListener{
 
     void initViews(){
 
+        backBtn = (ImageButton) findViewById(R.id.btn_enroll_home_back);
+        backBtn.setOnClickListener(this);
+
         enrollBtn = (Button) findViewById(R.id.btn_enroll_home_enroll);
         viewScheduleBtn = (Button) findViewById(R.id.btn_enroll_home_schedule);
 
@@ -46,7 +51,11 @@ public class EnrollHome extends Activity implements View.OnClickListener{
     @Override
     public void onClick(View v) {
 
-        if (v.equals(viewScheduleBtn)){
+        if(v.equals(backBtn)){
+
+            finish();
+
+        }else if (v.equals(viewScheduleBtn)){
 
             progressDialog = ProgressDialog.show(context, "Schedule", "Retreiving schedule ..", true);
             new GetScheduleBackground().execute("");
@@ -55,7 +64,6 @@ public class EnrollHome extends Activity implements View.OnClickListener{
 
             progressDialog = ProgressDialog.show(context, "Cart", "Retrieving cart items ..", true);
             new GetCartBackground().execute("");
-
         }
     }
 
@@ -91,6 +99,9 @@ public class EnrollHome extends Activity implements View.OnClickListener{
 
                         progressDialog.dismiss();
                         if (schedule.equals("failed")){
+
+                            Toast.makeText(getApplicationContext(), "Schedule not available",
+                                    Toast.LENGTH_LONG).show();
 
                         }else{
 
