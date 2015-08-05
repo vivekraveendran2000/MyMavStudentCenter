@@ -181,20 +181,19 @@ public class ViewSchedule extends Activity implements View.OnClickListener{
         @Override
         public void onClick(View v) {
 
-//            Course course = scheduleCourses.get(position);
-//            Intent subjectDetailIntent = new Intent(context, SearchSubjectDetails.class);
-//            subjectDetailIntent.putExtra("name",course.getCourse_name());
-//            subjectDetailIntent.putExtra("unique_code",course.getUniqueNumber());
-//            subjectDetailIntent.putExtra("number",course.getCourse_num());
-//            subjectDetailIntent.putExtra("strength",course.getCourse_strength());
-//            subjectDetailIntent.putExtra("time",course.getCourse_time());
-//            subjectDetailIntent.putExtra("end_date",course.getEnd_date());
-//            subjectDetailIntent.putExtra("instructor",course.getInstructor_name());
-//            subjectDetailIntent.putExtra("room", course.getRoom_no());
-//            subjectDetailIntent.putExtra("start_date",course.getStart_date());
-//            subjectDetailIntent.putExtra("coming_from", "view_cart");
-//
-//            startActivityForResult(subjectDetailIntent,1);
+            Course course = scheduleCourses.get(position);
+            Intent subjectDetailIntent = new Intent(context, EnrollSubjectDetail.class);
+            subjectDetailIntent.putExtra("name",course.getCourse_name());
+            subjectDetailIntent.putExtra("unique_code",course.getUniqueNumber());
+            subjectDetailIntent.putExtra("number",course.getCourse_num());
+            subjectDetailIntent.putExtra("strength",course.getCourse_strength());
+            subjectDetailIntent.putExtra("time",course.getCourse_time());
+            subjectDetailIntent.putExtra("end_date",course.getEnd_date());
+            subjectDetailIntent.putExtra("instructor",course.getInstructor_name());
+            subjectDetailIntent.putExtra("room", course.getRoom_no());
+            subjectDetailIntent.putExtra("start_date",course.getStart_date());
+
+            startActivityForResult(subjectDetailIntent,1);
         }
     }
 }

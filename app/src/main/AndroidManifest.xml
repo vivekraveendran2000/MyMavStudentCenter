@@ -35,6 +35,7 @@
         <activity android:name="uta.com.Cart.ViewCart"/>
         <activity android:name="uta.com.Enroll.EnrollHome"/>
         <activity android:name="uta.com.Enroll.ViewSchedule"/>
+        <activity android:name="uta.com.Enroll.EnrollSubjectDetail"/>
 
     </application>
 
