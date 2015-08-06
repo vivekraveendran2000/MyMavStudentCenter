@@ -290,15 +290,18 @@ public class SearchSubjectDetails extends Activity implements View.OnClickListen
                     @Override
                     public void run() {
 
+                        Toast.makeText(getApplicationContext(), statusMessage,
+                                Toast.LENGTH_LONG).show();
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
 
                                 progressDialog.dismiss();
+                                Intent intent = new Intent();
+                                setResult(RESULT_OK, intent);
+                                finish();
                             }
                         });
-                        Toast.makeText(getApplicationContext(), statusMessage,
-                                Toast.LENGTH_LONG).show();
                     }
                 }, 1000);
             }catch (Exception e){
