@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 
 import uta.com.Cart.CartHome;
 import uta.com.Enroll.EnrollHome;
+import uta.com.Enroll.ViewSchedule;
 import uta.com.search.SearchInput;
 
 /**
@@ -93,11 +95,67 @@ public class CurrentStudentHome extends Activity implements View.OnClickListener
 
                     Intent enrollIntent = new Intent(CurrentStudentHome.this, EnrollHome.class);
                     startActivity(enrollIntent);
+
+                }else if(position == 3 || position == 4 || position == 5){
+
+                    progressDialog = ProgressDialog.show(context, "Schedule", "Retreiving schedule ..", true);
+                    new GetScheduleBackground().execute("");
                 }
             }
         });
         signout = (ImageButton) findViewById(R.id.btn_signout);
         signout.setOnClickListener(this);
+    }
+
+    class GetScheduleBackground extends AsyncTask<String, String, String> {
+
+        private Exception exception;
+        String schedule;
+        String term;
+        String netId;
+
+        protected String doInBackground(String... urls) {
+            try {
+
+                SharedPreferences prefs = context.getSharedPreferences(
+                        "studentcenter", Context.MODE_PRIVATE);
+                term = prefs.getString("search_term","");
+                netId = prefs.getString("net_id","");
+
+                schedule = Webservice.viewSchedule(netId, term);
+
+            } catch (Exception e) {
+                this.exception = e;
+            }
+            return schedule;
+        }
+
+        protected void onPostExecute(String result) {
+
+            try {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        progressDialog.dismiss();
+                        if (schedule.equals("failed")){
+
+                            Toast.makeText(getApplicationContext(), "Schedule not available",
+                                    Toast.LENGTH_LONG).show();
+
+                        }else{
+
+                            Intent viewScheduleIntent = new Intent(CurrentStudentHome.this, ViewSchedule.class);
+                            viewScheduleIntent.putExtra("result",schedule);
+                            startActivity(viewScheduleIntent);
+                        }
+                    }
+                }, 1000);
+
+            }catch (Exception e){
+
+            }
+        }
     }
 
     @Override
