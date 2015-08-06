@@ -14,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import uta.com.Cart.ViewCart;
 import uta.com.studentcenter.R;
 import uta.com.studentcenter.Webservice;
 
@@ -102,10 +103,16 @@ public class EnrollSubjectDetail extends Activity implements View.OnClickListene
         if (v.equals(backButton)){
 
             finish();
+
         } else if (v.equals(dropBtn)){
 
             progressDialog = ProgressDialog.show(context, "Drop", "Dropping course ..", true);
             new DroptBackground().execute("");
+
+        }else if (v.equals(swapBtn)){
+
+            progressDialog = ProgressDialog.show(context, "Cart", "Retrieving cart items ..", true);
+            new GetCartBackground().execute("");
         }
 
     }
@@ -170,6 +177,72 @@ public class EnrollSubjectDetail extends Activity implements View.OnClickListene
                         }
                     }, 1500);
                 }
+            }catch (Exception e){
+
+            }
+        }
+    }
+
+
+    class GetCartBackground extends AsyncTask<String, String, String> {
+
+        private Exception exception;
+        String cartDetails;
+        String term;
+        String netId;
+
+        protected String doInBackground(String... urls) {
+            try {
+
+                SharedPreferences prefs = context.getSharedPreferences(
+                        "studentcenter", Context.MODE_PRIVATE);
+                term = prefs.getString("search_term","");
+                netId = prefs.getString("net_id","");
+
+                cartDetails = Webservice.viewCart(netId, term);
+
+            } catch (Exception e) {
+                this.exception = e;
+            }
+            return cartDetails;
+        }
+
+        protected void onPostExecute(String result) {
+
+            try {
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                progressDialog.dismiss();
+                            }
+                        });
+                        if (cartDetails.equals("failed")){
+
+
+                            Toast.makeText(getApplicationContext(), "Cart empty",
+                                    Toast.LENGTH_SHORT).show();
+                        }else{
+
+                            SharedPreferences prefs = context.getSharedPreferences(
+                                    "studentcenter", Context.MODE_PRIVATE);
+                            prefs.edit().putString("swap_selected_sub_name", courseName).apply();
+                            prefs.edit().putString("swap_selected_sub_number", courseNumber).apply();
+                            prefs.edit().putString("swap_selected_sub_insrtructor", instructor).apply();
+                            prefs.edit().putString("swap_selected_sub_unique_code", instructor).apply();
+
+                            Intent viewCartIntent = new Intent(EnrollSubjectDetail.this, ViewCart.class);
+                            viewCartIntent.putExtra("result", cartDetails);
+                            viewCartIntent.putExtra("coming_from","enroll_subject_details");
+                            startActivity(viewCartIntent);
+                        }
+                    }
+                }, 1000);
+
             }catch (Exception e){
 
             }

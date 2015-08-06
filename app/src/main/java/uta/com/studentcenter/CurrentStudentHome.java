@@ -36,7 +36,7 @@ public class CurrentStudentHome extends Activity implements View.OnClickListener
 
     String[] gridItems = {
             "Search",
-            "Add to cart",
+            "Cart",
             "Enroll",
             "Current Schedule",
             "Drop",

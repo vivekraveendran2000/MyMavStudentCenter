@@ -24,6 +24,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import uta.com.Enroll.Swap;
 import uta.com.Model.Course;
 import uta.com.search.SearchSubjectDetails;
 import uta.com.studentcenter.R;
@@ -43,6 +44,7 @@ public class ViewCart extends Activity implements View.OnClickListener{
     ProgressDialog progressDialog;
     String result;
     ListAdapter adapter;
+    String predecessorPage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,7 @@ public class ViewCart extends Activity implements View.OnClickListener{
         if (extras != null) {
             result = extras.getString("result");
         }
+        predecessorPage = extras.getString("coming_from");
         initData(result);
         initViews();
     }
@@ -272,20 +275,32 @@ public class ViewCart extends Activity implements View.OnClickListener{
         @Override
         public void onClick(View v) {
 
+            Intent tempIntent;
             Course course = cartCourses.get(position);
-            Intent subjectDetailIntent = new Intent(context, SearchSubjectDetails.class);
-            subjectDetailIntent.putExtra("name",course.getCourse_name());
-            subjectDetailIntent.putExtra("unique_code",course.getUniqueNumber());
-            subjectDetailIntent.putExtra("number",course.getCourse_num());
-            subjectDetailIntent.putExtra("strength",course.getCourse_strength());
-            subjectDetailIntent.putExtra("time",course.getCourse_time());
-            subjectDetailIntent.putExtra("end_date",course.getEnd_date());
-            subjectDetailIntent.putExtra("instructor",course.getInstructor_name());
-            subjectDetailIntent.putExtra("room", course.getRoom_no());
-            subjectDetailIntent.putExtra("start_date",course.getStart_date());
-            subjectDetailIntent.putExtra("coming_from", "view_cart");
+            if(predecessorPage.equals("enroll_subject_details")){
+                tempIntent = new Intent(context, Swap.class);
 
-            startActivityForResult(subjectDetailIntent,1);
+                tempIntent.putExtra("name",course.getCourse_name());
+                tempIntent.putExtra("unique_code",course.getUniqueNumber());
+                tempIntent.putExtra("number",course.getCourse_num());
+                tempIntent.putExtra("instructor",course.getInstructor_name());
+
+                startActivity(tempIntent);
+
+            }else {
+                tempIntent = new Intent(context, SearchSubjectDetails.class);
+                tempIntent.putExtra("name",course.getCourse_name());
+                tempIntent.putExtra("unique_code",course.getUniqueNumber());
+                tempIntent.putExtra("number",course.getCourse_num());
+                tempIntent.putExtra("strength",course.getCourse_strength());
+                tempIntent.putExtra("time",course.getCourse_time());
+                tempIntent.putExtra("end_date",course.getEnd_date());
+                tempIntent.putExtra("instructor",course.getInstructor_name());
+                tempIntent.putExtra("room", course.getRoom_no());
+                tempIntent.putExtra("start_date",course.getStart_date());
+                tempIntent.putExtra("coming_from", "view_cart");
+                startActivityForResult(tempIntent,1);
+            }
         }
     }
 }

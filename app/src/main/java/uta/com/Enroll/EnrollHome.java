@@ -164,6 +164,7 @@ public class EnrollHome extends Activity implements View.OnClickListener{
 
                             Intent viewCartIntent = new Intent(EnrollHome.this, ViewCart.class);
                             viewCartIntent.putExtra("result", cartDetails);
+                            viewCartIntent.putExtra("coming_from","enroll_home");
                             startActivity(viewCartIntent);
                         }
                     }

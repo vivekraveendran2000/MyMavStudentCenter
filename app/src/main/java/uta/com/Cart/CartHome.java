@@ -117,6 +117,7 @@ public class CartHome extends Activity implements View.OnClickListener{
 
                             Intent viewCartIntent = new Intent(CartHome.this, ViewCart.class);
                             viewCartIntent.putExtra("result", cartDetails);
+                            viewCartIntent.putExtra("coming_from", "cartHome");
                             startActivity(viewCartIntent);
                         }
                     }
