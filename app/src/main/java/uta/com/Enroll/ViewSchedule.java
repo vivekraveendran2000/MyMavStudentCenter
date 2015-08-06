@@ -127,8 +127,11 @@ public class ViewSchedule extends Activity implements View.OnClickListener{
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
 
-                progressDialog = ProgressDialog.show(context, "Cart", "Retrieving cart items ..", true);
+                progressDialog = ProgressDialog.show(context, "Cart", "Retrieving enrolled courses ..", true);
                 new GetScheduleBackground().execute("");
+                SharedPreferences prefs = context.getSharedPreferences(
+                        "studentcenter", Context.MODE_PRIVATE);
+                prefs.edit().putString("swap_status", "fail").apply();
             }
         }
     }

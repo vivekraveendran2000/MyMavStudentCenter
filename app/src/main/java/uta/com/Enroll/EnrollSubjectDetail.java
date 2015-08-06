@@ -184,6 +184,26 @@ public class EnrollSubjectDetail extends Activity implements View.OnClickListene
     }
 
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 1){
+
+            SharedPreferences prefs = context.getSharedPreferences(
+                    "studentcenter", Context.MODE_PRIVATE);
+            String swapStatus = prefs.getString("swap_status", "");
+
+            if (swapStatus.equals("success")) {
+                if (resultCode == RESULT_OK) {
+                    Intent intent = new Intent();
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
+            }
+        }
+    }
+
+
     class GetCartBackground extends AsyncTask<String, String, String> {
 
         private Exception exception;
@@ -233,12 +253,12 @@ public class EnrollSubjectDetail extends Activity implements View.OnClickListene
                             prefs.edit().putString("swap_selected_sub_name", courseName).apply();
                             prefs.edit().putString("swap_selected_sub_number", courseNumber).apply();
                             prefs.edit().putString("swap_selected_sub_insrtructor", instructor).apply();
-                            prefs.edit().putString("swap_selected_sub_unique_code", instructor).apply();
+                            prefs.edit().putString("swap_selected_sub_unique_code", uniqueCode).apply();
 
                             Intent viewCartIntent = new Intent(EnrollSubjectDetail.this, ViewCart.class);
                             viewCartIntent.putExtra("result", cartDetails);
                             viewCartIntent.putExtra("coming_from","enroll_subject_details");
-                            startActivity(viewCartIntent);
+                            startActivityForResult(viewCartIntent, 1);
                         }
                     }
                 }, 1000);

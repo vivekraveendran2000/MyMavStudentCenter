@@ -136,6 +136,20 @@ public class ViewCart extends Activity implements View.OnClickListener{
 
                 progressDialog = ProgressDialog.show(context, "Cart", "Retrieving cart items ..", true);
                 new GetCartBackground().execute("");
+
+            }
+        }else if (requestCode == 2){
+
+            SharedPreferences prefs = context.getSharedPreferences(
+                    "studentcenter", Context.MODE_PRIVATE);
+            String swapStatus = prefs.getString("swap_status", "");
+
+            if (swapStatus.equals("success")) {
+                if (resultCode == RESULT_OK) {
+                    Intent intent = new Intent();
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
             }
         }
     }
@@ -285,7 +299,7 @@ public class ViewCart extends Activity implements View.OnClickListener{
                 tempIntent.putExtra("number",course.getCourse_num());
                 tempIntent.putExtra("instructor",course.getInstructor_name());
 
-                startActivity(tempIntent);
+                startActivityForResult(tempIntent,2);
 
             }else {
                 tempIntent = new Intent(context, SearchSubjectDetails.class);

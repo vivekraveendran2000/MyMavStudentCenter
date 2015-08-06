@@ -22,7 +22,7 @@
             android:textStyle="bold"/>
 
         <ImageButton
-            android:id="@+id/btn_cart_home_back"
+            android:id="@+id/btn_swap_back"
             android:layout_width="75dp"
             android:layout_height="45dp"
             android:layout_marginTop="10dp"
