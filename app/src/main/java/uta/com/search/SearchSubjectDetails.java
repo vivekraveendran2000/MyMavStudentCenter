@@ -181,7 +181,7 @@ public class SearchSubjectDetails extends Activity implements View.OnClickListen
                             public void run() {
 
                                 progressDialog.dismiss();
-                                Toast.makeText(getApplicationContext(), "Add to cart failed",
+                                Toast.makeText(getApplicationContext(), "Failed. Course may already be in cart or enrolled !!",
                                         Toast.LENGTH_SHORT).show();
                             }
                         }, 1000);
