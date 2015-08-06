@@ -466,7 +466,7 @@ public class Webservice {
 
             URL url = new URL("http://omega.uta.edu/~sxa6933/StudentCenter/swap_course.php");
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            String urlParameters = "netid=" + netId  + "&term=" + term + "&unique_code_drop=" + dropCourseUniqueCode + "&unique_code_swap=" + swapCourseUniqueCode;
+            String urlParameters = "netid=" + netId  + "&term=" + term + "&unique_code_drop=" + dropCourseUniqueCode + "&unique_code_add=" + swapCourseUniqueCode;
             urlConnection.setRequestMethod("POST");
             urlConnection.setRequestProperty("Content-Length", "" +
                     Integer.toString(urlParameters.getBytes().length));
