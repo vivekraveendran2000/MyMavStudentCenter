@@ -39,6 +39,7 @@
         <activity android:name="uta.com.Enroll.Swap"/>
         <activity android:name="uta.com.Holds.Holds"/>
         <activity android:name="uta.com.Holds.HoldsDetails"/>
+        <activity android:name="uta.com.Financial.FinancialHome"/>
 
     </application>
 

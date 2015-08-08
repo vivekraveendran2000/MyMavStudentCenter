@@ -547,4 +547,48 @@ public class Webservice {
             return null;
         }
     }
+
+    public static String getFinancialData(String netId){
+
+        try {
+
+            URL url = new URL("http://omega.uta.edu/~sxa6933/StudentCenter/view_financial.php");
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            String urlParameters = "netid=" + netId;
+            urlConnection.setRequestMethod("POST");
+            urlConnection.setRequestProperty("Content-Length", "" +
+                    Integer.toString(urlParameters.getBytes().length));
+
+            urlConnection.setRequestProperty("Content-Language", "en-US");
+
+            urlConnection.setUseCaches (false);
+            urlConnection.setDoInput(true);
+            urlConnection.setDoOutput(true);
+
+            //Send request
+            DataOutputStream wr = new DataOutputStream ( urlConnection.getOutputStream ());
+            wr.writeBytes(urlParameters);
+
+            wr.flush ();
+            wr.close ();
+
+            //Get Response
+            InputStream is = urlConnection.getInputStream();
+            BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+            String line;
+            StringBuffer response = new StringBuffer();
+            while((line = rd.readLine()) != null) {
+                response.append(line);
+                //response.append('\r');
+            }
+            rd.close();
+            String output = response.toString();
+            return  output;
+
+        }catch(Exception e){
+
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

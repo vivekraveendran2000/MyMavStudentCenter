@@ -23,6 +23,7 @@ import android.widget.Toast;
 import uta.com.Cart.CartHome;
 import uta.com.Enroll.EnrollHome;
 import uta.com.Enroll.ViewSchedule;
+import uta.com.Financial.FinancialHome;
 import uta.com.Holds.Holds;
 import uta.com.search.SearchInput;
 
@@ -106,6 +107,11 @@ public class CurrentStudentHome extends Activity implements View.OnClickListener
 
                     progressDialog = ProgressDialog.show(context, "Holds", "Retreiving holds ..", true);
                     new GetHoldsBackground().execute("");
+
+                }else if(position == 6){
+
+                    progressDialog = ProgressDialog.show(context, "Finance", "Retrieving financial data ..", true);
+                    new GetFinancialBackground().execute("");
                 }
             }
         });
@@ -202,6 +208,56 @@ public class CurrentStudentHome extends Activity implements View.OnClickListener
                         }else{
 
                             Intent viewHoldsIntent = new Intent(CurrentStudentHome.this, Holds.class);
+                            viewHoldsIntent.putExtra("result",holds);
+                            startActivity(viewHoldsIntent);
+                        }
+                    }
+                }, 1000);
+
+            }catch (Exception e){
+
+            }
+        }
+    }
+
+
+    class GetFinancialBackground extends AsyncTask<String, String, String> {
+
+        private Exception exception;
+        String holds;
+        String netId;
+
+        protected String doInBackground(String... urls) {
+            try {
+
+                SharedPreferences prefs = context.getSharedPreferences(
+                        "studentcenter", Context.MODE_PRIVATE);
+                netId = prefs.getString("net_id","");
+
+                holds = Webservice.getFinancialData(netId);
+
+            } catch (Exception e) {
+                this.exception = e;
+            }
+            return holds;
+        }
+
+        protected void onPostExecute(String result) {
+
+            try {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        progressDialog.dismiss();
+                        if (holds.equals("failed")){
+
+                            Toast.makeText(getApplicationContext(), "Financial data not available",
+                                    Toast.LENGTH_LONG).show();
+
+                        }else{
+
+                            Intent viewHoldsIntent = new Intent(CurrentStudentHome.this, FinancialHome.class);
                             viewHoldsIntent.putExtra("result",holds);
                             startActivity(viewHoldsIntent);
                         }
