@@ -156,38 +156,38 @@ public class SearchSubjectDetails extends Activity implements View.OnClickListen
         protected void onPostExecute(String result) {
 
             try {
-                if (response.equals("success")){
 
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
+                JSONObject mJsonObject = new JSONObject(response);
+                final String statusMessage = mJsonObject.getString("message");
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
 
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-
-                                    progressDialog.dismiss();
-                                }
-                            });
-                            Toast.makeText(getApplicationContext(), "Added to cart successfully",
-                                    Toast.LENGTH_LONG).show();
-                        }
-                    }, 1000);
-
-
-                }else{
-                        new Handler().postDelayed(new Runnable() {
+                        Toast.makeText(getApplicationContext(), statusMessage,
+                                Toast.LENGTH_LONG).show();
+                        runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
 
                                 progressDialog.dismiss();
-                                Toast.makeText(getApplicationContext(), "Failed. Course may already be in cart or enrolled !!",
-                                        Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent();
+                                setResult(RESULT_OK, intent);
+                                finish();
                             }
-                        }, 1000);
-                }
+                        });
+                    }
+                }, 1000);
             }catch (Exception e){
 
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        progressDialog.dismiss();
+                    }
+                });
+                Toast.makeText(getApplicationContext(), "Error",
+                        Toast.LENGTH_LONG).show();
             }
         }
     }
