@@ -170,9 +170,6 @@ public class SearchSubjectDetails extends Activity implements View.OnClickListen
                             public void run() {
 
                                 progressDialog.dismiss();
-                                Intent intent = new Intent();
-                                setResult(RESULT_OK, intent);
-                                finish();
                             }
                         });
                     }
