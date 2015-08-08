@@ -37,6 +37,7 @@
         <activity android:name="uta.com.Enroll.ViewSchedule"/>
         <activity android:name="uta.com.Enroll.EnrollSubjectDetail"/>
         <activity android:name="uta.com.Enroll.Swap"/>
+        <activity android:name="uta.com.Holds.Holds"/>
 
     </application>
 
