@@ -168,15 +168,13 @@ public class Holds extends Activity implements View.OnClickListener{
 
             try {
 
-//                Application tmpAppl = new Application();
-//                tmpAppl = applicationList.get(position);
-//
-//                Intent applicationDetailIntent = new Intent(context, ApplicationDetail.class);
-//                applicationDetailIntent.putExtra("name", tmpAppl.getName());
-//                applicationDetailIntent.putExtra("number", tmpAppl.getNumber());
-//                applicationDetailIntent.putExtra("status", tmpAppl.getStatus());
-//                applicationDetailIntent.putExtra("date", tmpAppl.getDate());
-//                startActivity(applicationDetailIntent);
+                Hold tmpHld = new Hold();
+                tmpHld = holdsList.get(position);
+
+                Intent applicationDetailIntent = new Intent(context, HoldsDetails.class);
+                applicationDetailIntent.putExtra("name", tmpHld.getName());
+                applicationDetailIntent.putExtra("description", tmpHld.getDescription());
+                startActivity(applicationDetailIntent);
 
             }catch (Exception e){
 
