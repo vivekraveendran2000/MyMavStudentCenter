@@ -37,7 +37,7 @@ public class Splash extends Activity {
 
         }else {
 
-            if (studentStatus == "current") {
+            if (studentStatus.equals("current")) {
 
                 Intent currentStudentHomeIntent = new Intent(Splash.this, CurrentStudentHome.class);
                 startActivity(currentStudentHomeIntent);
