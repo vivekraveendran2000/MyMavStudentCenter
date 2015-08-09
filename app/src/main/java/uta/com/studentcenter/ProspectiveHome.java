@@ -16,6 +16,7 @@ import android.widget.Toast;
 import org.json.JSONObject;
 
 import uta.com.Application.ApplicationResult;
+import uta.com.PersonalInfo.PersonalHome;
 import uta.com.ToDoList.ToDoListResult;
 
 
@@ -26,7 +27,7 @@ public class ProspectiveHome extends Activity implements View.OnClickListener{
 
     ImageButton signOutBtn;
     Context context;
-    Button applicationBtn, todoBtn;
+    Button applicationBtn, todoBtn, personalInfo;
     ProgressDialog progressDialog;
 
     @Override
@@ -45,6 +46,8 @@ public class ProspectiveHome extends Activity implements View.OnClickListener{
         todoBtn = (Button) findViewById(R.id.btn_prospective_home_todo);
         applicationBtn.setOnClickListener(this);
         todoBtn.setOnClickListener(this);
+        personalInfo = (Button) findViewById(R.id.btn_prospective_home_personal_info);
+        personalInfo.setOnClickListener(this);
     }
 
     @Override
@@ -93,6 +96,18 @@ public class ProspectiveHome extends Activity implements View.OnClickListener{
 
                 progressDialog = ProgressDialog.show(context, "To Do List", "Retrieving to do list ..", true);
                 new ToDoListBackground().execute("");
+
+            }catch (Exception e){
+
+            }
+
+        }else if (v.equals(personalInfo)){
+
+
+            try {
+
+                progressDialog = ProgressDialog.show(context, "Personal Information", "Retrieving personal information ..", true);
+                new GetPersonalInfo().execute("");
 
             }catch (Exception e){
 
@@ -203,6 +218,55 @@ public class ProspectiveHome extends Activity implements View.OnClickListener{
             }catch (Exception e){
 
                 e.printStackTrace();
+            }
+        }
+    }
+
+    class GetPersonalInfo extends AsyncTask<String, String, String> {
+
+        private Exception exception;
+        String personalInfo;
+        String netId;
+
+        protected String doInBackground(String... urls) {
+            try {
+
+                SharedPreferences prefs = context.getSharedPreferences(
+                        "studentcenter", Context.MODE_PRIVATE);
+                netId = prefs.getString("net_id","");
+
+                personalInfo = Webservice.getPersonalInfo(netId);
+
+            } catch (Exception e) {
+                this.exception = e;
+            }
+            return personalInfo;
+        }
+
+        protected void onPostExecute(String result) {
+
+            try {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        progressDialog.dismiss();
+                        if (personalInfo.equals("failed")){
+
+                            Toast.makeText(getApplicationContext(), "Personal data not available",
+                                    Toast.LENGTH_LONG).show();
+
+                        }else{
+
+                            Intent personaInfoIntent = new Intent(ProspectiveHome.this, PersonalHome.class);
+                            personaInfoIntent.putExtra("result",personalInfo);
+                            startActivity(personaInfoIntent);
+                        }
+                    }
+                }, 1000);
+
+            }catch (Exception e){
+
             }
         }
     }
