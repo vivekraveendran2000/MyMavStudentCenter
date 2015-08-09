@@ -25,6 +25,8 @@ import uta.com.Enroll.EnrollHome;
 import uta.com.Enroll.ViewSchedule;
 import uta.com.Financial.FinancialHome;
 import uta.com.Holds.Holds;
+import uta.com.Model.PersonalInfo;
+import uta.com.PersonalInfo.PersonalHome;
 import uta.com.search.SearchInput;
 
 /**
@@ -112,6 +114,11 @@ public class CurrentStudentHome extends Activity implements View.OnClickListener
 
                     progressDialog = ProgressDialog.show(context, "Finance", "Retrieving financial data ..", true);
                     new GetFinancialBackground().execute("");
+
+                }else if (position == 7){
+
+                    progressDialog = ProgressDialog.show(context, "Personal Info", "Retrieving personal data ..", true);
+                    new GetPersonalInfo().execute("");
                 }
             }
         });
@@ -224,7 +231,7 @@ public class CurrentStudentHome extends Activity implements View.OnClickListener
     class GetFinancialBackground extends AsyncTask<String, String, String> {
 
         private Exception exception;
-        String holds;
+        String financialData;
         String netId;
 
         protected String doInBackground(String... urls) {
@@ -234,12 +241,12 @@ public class CurrentStudentHome extends Activity implements View.OnClickListener
                         "studentcenter", Context.MODE_PRIVATE);
                 netId = prefs.getString("net_id","");
 
-                holds = Webservice.getFinancialData(netId);
+                financialData = Webservice.getFinancialData(netId);
 
             } catch (Exception e) {
                 this.exception = e;
             }
-            return holds;
+            return financialData;
         }
 
         protected void onPostExecute(String result) {
@@ -250,16 +257,66 @@ public class CurrentStudentHome extends Activity implements View.OnClickListener
                     public void run() {
 
                         progressDialog.dismiss();
-                        if (holds.equals("failed")){
+                        if (financialData.equals("failed")){
 
                             Toast.makeText(getApplicationContext(), "Financial data not available",
                                     Toast.LENGTH_LONG).show();
 
                         }else{
 
-                            Intent viewHoldsIntent = new Intent(CurrentStudentHome.this, FinancialHome.class);
-                            viewHoldsIntent.putExtra("result",holds);
-                            startActivity(viewHoldsIntent);
+                            Intent financialIntent = new Intent(CurrentStudentHome.this, FinancialHome.class);
+                            financialIntent.putExtra("result",financialData);
+                            startActivity(financialIntent);
+                        }
+                    }
+                }, 1000);
+
+            }catch (Exception e){
+
+            }
+        }
+    }
+
+
+    class GetPersonalInfo extends AsyncTask<String, String, String> {
+
+        private Exception exception;
+        String personalInfo;
+        String netId;
+
+        protected String doInBackground(String... urls) {
+            try {
+
+                SharedPreferences prefs = context.getSharedPreferences(
+                        "studentcenter", Context.MODE_PRIVATE);
+                netId = prefs.getString("net_id","");
+
+                personalInfo = Webservice.getPersonalInfo(netId);
+
+            } catch (Exception e) {
+                this.exception = e;
+            }
+            return personalInfo;
+        }
+
+        protected void onPostExecute(String result) {
+
+            try {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        progressDialog.dismiss();
+                        if (personalInfo.equals("failed")){
+
+                            Toast.makeText(getApplicationContext(), "Personal data not available",
+                                    Toast.LENGTH_LONG).show();
+
+                        }else{
+
+                            Intent personaInfoIntent = new Intent(CurrentStudentHome.this, PersonalHome.class);
+                            personaInfoIntent.putExtra("result",personalInfo);
+                            startActivity(personaInfoIntent);
                         }
                     }
                 }, 1000);
