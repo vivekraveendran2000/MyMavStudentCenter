@@ -548,13 +548,13 @@ public class Webservice {
         }
     }
 
-    public static String getFinancialData(String netId){
+    public static String getFinancialData(String netId, String term){
 
         try {
 
             URL url = new URL("http://omega.uta.edu/~sxa6933/StudentCenter/view_financial.php");
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            String urlParameters = "netid=" + netId;
+            String urlParameters = "netid=" + netId  + "&term=" + term;
             urlConnection.setRequestMethod("POST");
             urlConnection.setRequestProperty("Content-Length", "" +
                     Integer.toString(urlParameters.getBytes().length));

@@ -233,6 +233,7 @@ public class CurrentStudentHome extends Activity implements View.OnClickListener
         private Exception exception;
         String financialData;
         String netId;
+        String term;
 
         protected String doInBackground(String... urls) {
             try {
@@ -240,8 +241,9 @@ public class CurrentStudentHome extends Activity implements View.OnClickListener
                 SharedPreferences prefs = context.getSharedPreferences(
                         "studentcenter", Context.MODE_PRIVATE);
                 netId = prefs.getString("net_id","");
+                term = prefs.getString("search_term","");
 
-                financialData = Webservice.getFinancialData(netId);
+                financialData = Webservice.getFinancialData(netId, term);
 
             } catch (Exception e) {
                 this.exception = e;
