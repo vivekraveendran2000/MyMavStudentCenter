@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_margin="5dp"
-            android:text="Swap"
+            android:text="Hold details"
             android:textColor="#FFF"
             android:textSize="30sp"
             android:textStyle="bold"/>
